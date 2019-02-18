@@ -1,0 +1,65 @@
+package ru.spb.kupchinolab.otus.online_master;
+
+import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.infra.Blackhole;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+@BenchmarkMode(Mode.AverageTime)
+@OutputTimeUnit(TimeUnit.MILLISECONDS)
+@State(Scope.Benchmark)
+@Fork(value = 2, jvmArgs = {})
+@Warmup(iterations = 2)
+@Measurement(iterations = 3)
+public class LoopsBenchmark {
+
+    private int N = 1000000;
+
+    private List<String> DATA_FOR_TESTING = createData();
+
+    @Benchmark
+    public void loopFor(Blackhole blackhole) {
+        for (int i = 0; i < DATA_FOR_TESTING.size(); i++) {
+            String s = DATA_FOR_TESTING.get(i);
+            blackhole.consume(s);
+        }
+    }
+
+    @Benchmark
+    public void loopWhile(Blackhole blackhole) {
+        int i = 0;
+        while (i < DATA_FOR_TESTING.size()) {
+            String s = DATA_FOR_TESTING.get(i);
+            blackhole.consume(s);
+            i++;
+        }
+    }
+
+    @Benchmark
+    public void loopForEach(Blackhole blackhole) {
+        for (String s : DATA_FOR_TESTING) {
+            blackhole.consume(s);
+        }
+    }
+
+    @Benchmark
+    public void loopIterator(Blackhole blackhole) {
+        Iterator<String> iterator = DATA_FOR_TESTING.iterator();
+        while (iterator.hasNext()) {
+            String s = iterator.next();
+            blackhole.consume(s);
+        }
+    }
+
+    private List<String> createData() {
+        List<String> data = new ArrayList<>();
+        for (int i = 0; i < N; i++) {
+            data.add("Number : " + i);
+        }
+        return data;
+    }
+
+}

@@ -25,13 +25,36 @@
 
 package ru.spb.kupchinolab.otus.online_master;
 
-import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.infra.Blackhole;
+import org.openjdk.jmh.runner.Runner;
+import org.openjdk.jmh.runner.RunnerException;
+import org.openjdk.jmh.runner.options.Options;
+import org.openjdk.jmh.runner.options.OptionsBuilder;
 
-public class MyBenchmark {
+import java.util.concurrent.TimeUnit;
+
+@BenchmarkMode(Mode.AverageTime)
+@OutputTimeUnit(TimeUnit.MILLISECONDS)
+@State(Scope.Benchmark)
+@Fork(value = 2, jvmArgs = {})
+@Warmup(iterations = 2)
+@Measurement(iterations = 3)
+public class BetterBenchmark {
+
+    public static void main(String[] args) throws RunnerException {
+
+        Options opt = new OptionsBuilder()
+                .include(BetterBenchmark.class.getSimpleName())
+                .build();
+
+        new Runner(opt).run();
+    }
 
     @Benchmark
-    public void testMethod() {
-        // place your benchmarked code here
+    public void testMethod(Blackhole blackhole) {
+        Algorithm.sum();
+        blackhole.consume(null);
     }
 
 }
