@@ -38,8 +38,8 @@ import java.util.concurrent.TimeUnit;
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @State(Scope.Benchmark)
 @Fork(value = 2, jvmArgs = {})
-@Warmup(iterations = 2)
-@Measurement(iterations = 3)
+@Warmup(iterations = 3)
+@Measurement(iterations = 4)
 public class BetterBenchmark {
 
     public static void main(String[] args) throws RunnerException {
