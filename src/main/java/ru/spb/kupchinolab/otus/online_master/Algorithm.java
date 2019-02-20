@@ -11,4 +11,13 @@ class Algorithm {
         }
     }
 
+    static long sumAndResult() {
+        long result = 0;
+        for (long i = 1; i <= N; i++) {
+            result += i;
+        }
+        return result;
+    }
+
+
 }

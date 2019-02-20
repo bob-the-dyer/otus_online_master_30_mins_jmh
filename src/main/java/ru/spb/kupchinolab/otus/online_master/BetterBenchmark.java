@@ -53,8 +53,8 @@ public class BetterBenchmark {
 
     @Benchmark
     public void testMethod(Blackhole blackhole) {
-        Algorithm.sum();
-        blackhole.consume(null);
+        long sum = Algorithm.sumAndResult();
+        blackhole.consume(sum);
     }
 
 }
